@@ -11,8 +11,8 @@ public class MyQueue <T> {
     private int rear;
 
 
-    public MyQueue(int size) {
-        this.size = size;
+    public MyQueue() {
+        this.size = 16;
         array = new Object[size];
         amountElements = 0;
         front = 0;
@@ -24,7 +24,7 @@ public class MyQueue <T> {
         if(rear == size - 1){
             rear = -1;
         }
-        array[++front] = value;
+        array[front++] = value;
         amountElements++;
     }
 
@@ -54,18 +54,19 @@ public class MyQueue <T> {
 
     public Object peek(){
        Object obj = new Object();
-        obj = array[front];
+        obj = array[0];
         return obj;
     }
 
     public Object poll(){
-        Object obj = new Object();
-        obj = array[front];
-        array[front] = null;
-        for (int i = 0;i<array.length;i++){
-            array[i] = array[i+1];
-        }
-        
+      Object obj = new Object();
+      obj = array[0];
+      array[0] = null;
+      amountElements--;
+      for(int i = 0;i < array.length - 1 ;i++){
+          array[i] = array[i+1];
+      }
+
         return obj;
     }
 

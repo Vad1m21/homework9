@@ -2,61 +2,89 @@ package myLinkedList;
 
 import arrayList.MyList;
 
-public class MyLinkedList <T> implements MyList<T> {
+public class MyLinkedList <T>{
 
-    private Node<T> firstNode;
-    private Node<T> lastNode;
+    private Node<T> head;
     private int size = 0;
 
-    public MyLinkedList() {
 
-        lastNode = new Node<T>(null, firstNode,null);
-        firstNode = new Node<T>(null,null,lastNode);
 
-    }
-
-    @Override
     public void add(T value) {
-        Node<T> prev = lastNode;
-        prev.setCurrentElement(value);
-        lastNode = new Node<T>(null,prev,null);
-        prev.setNextElement(lastNode);
+        Node<T> node = new Node<T>(value);
+        node.next = null;
+        if(head == null){
+          head = node;
+        }
+        else {
+            Node last = head;
+            while (last.next != null) {
+                last = last.next;
+            }
+
+
+            last.next =node;
+        }
         size++;
     }
 
-    @Override
+
+
     public void remove(int index) {
-        Node <T> target = firstNode.getNextElement();
-        for(int i = 0;i<index;i++){
+        Node currNode = head, prev = null;
+
+        if (index == 0 && currNode != null) {
+            head = currNode.next;
 
         }
 
+        int counter = 0;
+        while (currNode != null) {
+
+            if (counter == index) {
+                prev.next = currNode.next;
+
+
+                break;
+            }
+            else {
+
+                prev = currNode;
+                currNode = currNode.next;
+                counter++;
+            }
+        }
+
+        size--;
     }
 
-    @Override
+
     public int size() {
         return size;
     }
 
-    @Override
+
     public T get(int index) {
-        Node<T> target = firstNode.getNextElement();
-        for(int i =0;i<index;i++){
-            target = getNextElement(target);
+        Node currNode = head, prev = null;
+        int counter = 0;
+        T obj = null;
+        while (currNode != null) {
+
+            if (counter == index) {
+                obj = (T) currNode.value;
+                break;
+            }
+            else {
+                prev = currNode;
+                currNode = currNode.next;
+                counter++;
+            }
         }
-        return target.getCurrentElement();
+        return obj;
     }
 
-    @Override
-    public T  clear() {
 
-            lastNode = null;
-            firstNode = null;
-            size = 0;
-     return null;
-    }
-
-    private Node<T>getNextElement(Node<T> current){
-        return current.getNextElement();
+    public void clear() {
+       head = null;
+       size = 0;
     }
 }
